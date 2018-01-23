@@ -1,6 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
 * Студент: [Даниил Чернявский](https://up.htmlacademy.ru/javascript/12/user/502911).
+* Наставник: [Олег Петров](https://up.htmlacademy.ru/javascript/12/user/42390).
 
 ---
 
