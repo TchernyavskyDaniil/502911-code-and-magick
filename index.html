@@ -180,25 +180,46 @@
   </div>
 </template>
 <script>
-  // px
+  'use strict';
+  // const
+  var HEIGHT_RATIO = 1.337;
+
   var fireballSize = 22;
   var wizardSpeed = 3;
   var wizardWidth = 70;
-  var HEIGHT_RATIO = 1.337;
 
+  /**
+   * Returns a fireball speed on direction
+   * @param {boolean} left - direction to left
+   * @returns {number} - fireball speed
+   */
   var getFireballSpeed = function (left) {
     return left ? 5 : 2;
   };
 
-  var getWizardHeight = function (propWidth) {
+  /**
+   * Calculate wizard height
+   * @returns {number} - wizard height
+   */
+  var getWizardHeight = function () {
     return HEIGHT_RATIO * wizardWidth;
   };
 
-  function getWizardX(width) {
+  /**
+   * Calculate wizard horizontal position
+   * @param {number} width - playground area
+   * @returns {number} - wizard X position
+   */
+  var getWizardX = function (width) {
     return (width - wizardWidth) / 2;
   };
 
-  function getWizardY(height) {
+  /**
+   * Calculate wizard vertical position
+   * @param {number} height - playground area
+   * @returns {number} - wizard Y position
+   */
+  var getWizardY = function (height) {
     return height / 3 - getWizardHeight()
   };
 </script>
