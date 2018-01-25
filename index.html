@@ -8,7 +8,6 @@
   <title>Код и Магия</title>
 </head>
 <body>
-
 <header>
   <svg style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62
         86">
@@ -180,8 +179,50 @@
     <p class="setup-similar-label">Петр Петров</p>
   </div>
 </template>
+<script>
+  'use strict';
+  // const
+  var HEIGHT_RATIO = 1.337;
 
+  var fireballSize = 22;
+  var wizardSpeed = 3;
+  var wizardWidth = 70;
+
+  /**
+   * Returns a fireball speed on direction
+   * @param {boolean} left - direction to left
+   * @returns {number} - fireball speed
+   */
+  var getFireballSpeed = function (left) {
+    return left ? 5 : 2;
+  };
+
+  /**
+   * Calculate wizard height
+   * @returns {number} - wizard height
+   */
+  var getWizardHeight = function () {
+    return HEIGHT_RATIO * wizardWidth;
+  };
+
+  /**
+   * Calculate wizard horizontal position
+   * @param {number} width - playground area
+   * @returns {number} - wizard X position
+   */
+  var getWizardX = function (width) {
+    return (width - wizardWidth) / 2;
+  };
+
+  /**
+   * Calculate wizard vertical position
+   * @param {number} height - playground area
+   * @returns {number} - wizard Y position
+   */
+  var getWizardY = function (height) {
+    return height / 3 - getWizardHeight();
+  };
+</script>
 <script src="js/game.js"></script>
-
 </body>
 </html>
