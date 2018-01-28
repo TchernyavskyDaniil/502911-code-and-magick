@@ -120,13 +120,25 @@ window.renderStatistics = function (ctx, names, times) {
   };
 
   /**
-   * Render histogram with score and name players
+   * Drawing a histogram for our players
+   * @param {number} time - how much time do you need to win
+   * @param {string} name - player name
+   * @param {number} i - number player
    */
-  for (var i = 0; i < names.length; i++) {
-    ctx.fillText(times[i].toFixed(), cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT + (-1 * (barWidth * times[i]) / maxTime) - (0.5 * (histogramParams.LINE_HEIGHT)));
-    ctx.fillStyle = (names[i] === 'Вы') ? getColor(255, 0, 0, 1) : getColor(0, 0, 255, getRandomOpacity(0.2, 1));
-    ctx.fillRect(cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT - headerParams.LINE_HEIGHT, histogramParams.BAR_HEIGHT, -1 * (barWidth * times[i]) / maxTime);
+  var drawHistogram = function (time, name, i) {
+    ctx.fillText(time.toFixed(), cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT + (-1 * (barWidth * time) / maxTime) - (0.5 * (histogramParams.LINE_HEIGHT)));
+    ctx.fillStyle = (name === 'Вы') ? getColor(255, 0, 0, 1) : getColor(0, 0, 255, getRandomOpacity(0.2, 1));
+    ctx.fillRect(cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT - headerParams.LINE_HEIGHT, histogramParams.BAR_HEIGHT, -1 * (barWidth * time) / maxTime);
     ctx.fillStyle = 'black';
-    ctx.fillText(names[i], cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT);
-  }
+    ctx.fillText(name, cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT);
+  };
+
+  /**
+   * Array for function drawHistogram, which call callback every time
+   * @param {number} time - array element
+   * @param {number} timeIndex - array element number time
+   */
+  times.forEach(function (time, timeIndex) {
+    drawHistogram(time, names[timeIndex], timeIndex);
+  });
 };
