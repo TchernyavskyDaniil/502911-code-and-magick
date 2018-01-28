@@ -71,7 +71,7 @@ window.renderStatistics = function (ctx, names, times) {
     }
 
     context.fillText(line, marginLeft, marginTop);
-  }
+  };
 
   /**
    * Return max value array
