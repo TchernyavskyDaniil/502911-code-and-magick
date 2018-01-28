@@ -2,6 +2,9 @@
 
 window.renderStatistics = function (ctx, names, times) {
   var maxTime;
+  var colorMainPlayer = 'rgba(255, 0, 0, 1)';
+  var minRange = 0.2;
+  var maxRange = 1;
 
   /**
    * Parameters for cloud
@@ -74,34 +77,13 @@ window.renderStatistics = function (ctx, names, times) {
   };
 
   /**
-   * Return max value array
-   * @param {number} arr
-   * @return {number}
-   */
-  var getMaxElement = function (arr) {
-    return Math.max.apply(null, arr);
-  };
-
-  /**
    * Return random number opacity between the interval min - max (max not inclusive)
    * @param {number} min - number opacity
    * @param {number} max - number opacity
    * @return {number} - random number
    */
-  var getRandomOpacity = function (min, max) {
+  var getRandomNumber = function (min, max) {
     return Math.random() * (max - min) + min;
-  };
-
-  /**
-   * Return RGBA color for player's histogram
-   * @param {number} red
-   * @param {number} green
-   * @param {number} blue
-   * @param {number} opacity
-   * @return {string}
-   */
-  var getColor = function (red, green, blue, opacity) {
-    return 'rgba(' + red + ',' + green + ',' + blue + ',' + opacity + ')';
   };
 
   /**
@@ -112,7 +94,7 @@ window.renderStatistics = function (ctx, names, times) {
    */
   var drawHistogram = function (time, name, i) {
     ctx.fillText(time.toFixed(), cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT + (-1 * (barWidth * time) / maxTime) - (0.5 * (histogramParams.LINE_HEIGHT)));
-    ctx.fillStyle = (name === 'Вы') ? getColor(255, 0, 0, 1) : getColor(0, 0, 255, getRandomOpacity(0.2, 1));
+    ctx.fillStyle = (name === 'Вы') ? colorMainPlayer : 'rgba(0, 0, 255, ' + getRandomNumber(minRange, maxRange) + ')';
     ctx.fillRect(cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT - headerParams.LINE_HEIGHT, histogramParams.BAR_HEIGHT, -1 * (barWidth * time) / maxTime);
     ctx.fillStyle = 'black';
     ctx.fillText(name, cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT);
@@ -132,13 +114,8 @@ window.renderStatistics = function (ctx, names, times) {
 
   wrapText(ctx, headerParams.TEXT, headerParams.TEXT_WIDTH, headerParams.LINE_HEIGHT, headerParams.MARGIN_LEFT, headerParams.MARGIN_TOP);
 
-  maxTime = getMaxElement(times);
+  maxTime = Math.max.apply(null, times);
 
-  /**
-   * Array for function drawHistogram, which call callback every time
-   * @param {number} time - array element
-   * @param {number} timeIndex - array element number time
-   */
   times.forEach(function (time, timeIndex) {
     drawHistogram(time, names[timeIndex], timeIndex);
   });
