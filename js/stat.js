@@ -42,18 +42,6 @@ window.renderStatistics = function (ctx, names, times) {
   var barWidth = (cloudParams.WIDTH - histogramParams.GAP * 2 - histogramParams.TEXT_WIDTH) / 2;
 
   /**
-   * Init shadow for cloud
-   */
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(cloudParams.POINT_X + 10, cloudParams.POINT_Y + 10, cloudParams.WIDTH, cloudParams.HEIGHT);
-
-  /**
-   * Init background for cloud
-   */
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(cloudParams.POINT_X, cloudParams.POINT_Y, cloudParams.WIDTH, cloudParams.HEIGHT);
-
-  /**
    * Render multiline text
    * @param {object} context - Canvas Context
    * @param {string} text - Text to draw
@@ -62,7 +50,7 @@ window.renderStatistics = function (ctx, names, times) {
    * @param {number} marginLeft - Margin left text to draw
    * @param {number} marginTop - Margin top text to draw
    */
-  function wrapText(context, text, textWidth, lineHeight, marginLeft, marginTop) {
+  var wrapText = function (context, text, textWidth, lineHeight, marginLeft, marginTop) {
     context.fillStyle = 'black';
     context.font = '16px PT Mono';
 
@@ -85,13 +73,14 @@ window.renderStatistics = function (ctx, names, times) {
     context.fillText(line, marginLeft, marginTop);
   }
 
-  wrapText(ctx, headerParams.TEXT, headerParams.TEXT_WIDTH, headerParams.LINE_HEIGHT, headerParams.MARGIN_LEFT, headerParams.MARGIN_TOP);
-
+  /**
+   * Return max value array
+   * @param {number} arr
+   * @return {number}
+   */
   var getMaxElement = function (arr) {
     return Math.max.apply(null, arr);
   };
-
-  maxTime = getMaxElement(times);
 
   /**
    * Return random number opacity between the interval min - max (max not inclusive)
@@ -112,11 +101,7 @@ window.renderStatistics = function (ctx, names, times) {
    * @return {string}
    */
   var getColor = function (red, green, blue, opacity) {
-    var arr = [];
-    for (var i = 0; i < arguments.length; i++) {
-      arr[i] = arguments[i];
-    }
-    return 'rgba' + '(' + arr.join(',') + ')';
+    return 'rgba(' + red + ',' + green + ',' + blue + ',' + opacity + ')';
   };
 
   /**
@@ -132,6 +117,22 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillStyle = 'black';
     ctx.fillText(name, cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT);
   };
+
+  /**
+   * Init shadow for cloud
+   */
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+  ctx.fillRect(cloudParams.POINT_X + 10, cloudParams.POINT_Y + 10, cloudParams.WIDTH, cloudParams.HEIGHT);
+
+  /**
+   * Init background for cloud
+   */
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(cloudParams.POINT_X, cloudParams.POINT_Y, cloudParams.WIDTH, cloudParams.HEIGHT);
+
+  wrapText(ctx, headerParams.TEXT, headerParams.TEXT_WIDTH, headerParams.LINE_HEIGHT, headerParams.MARGIN_LEFT, headerParams.MARGIN_TOP);
+
+  maxTime = getMaxElement(times);
 
   /**
    * Array for function drawHistogram, which call callback every time
