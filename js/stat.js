@@ -77,7 +77,7 @@ window.renderStatistics = function (ctx, names, times) {
   };
 
   /**
-   * Return random number opacity between the interval min - max (max not inclusive)
+   * Return random number between the interval min - max (max not inclusive)
    * @param {number} min - number opacity
    * @param {number} max - number opacity
    * @return {number} - random number
