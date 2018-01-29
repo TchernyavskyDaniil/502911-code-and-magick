@@ -3,13 +3,13 @@
 window.renderStatistics = function (ctx, names, times) {
   /**
    * Coefficient for line position
-   * @type {number} RESULT_COEF
+   * @const {number} RESULT_COEF
    */
   var RESULT_COEF = 0.5;
   var maxTime = Math.max.apply(null, times);
   var colorMainPlayer = 'rgba(255, 0, 0, 1)';
-  var minRange = 0.2;
-  var maxRange = 1;
+  var MIN_RANGE = 0.2;
+  var MAX_RANGE = 1;
 
   /**
    * Parameters for cloud
@@ -37,7 +37,7 @@ window.renderStatistics = function (ctx, names, times) {
 
   /**
    * Parameters for header text
-   * @type {object} headerParams
+   * @type {Оbject} headerParams
    */
   var headerParams = {
     TEXT: 'Ура, вы победили! Список результатов:',
@@ -51,7 +51,7 @@ window.renderStatistics = function (ctx, names, times) {
 
   /**
    * Render multiline text
-   * @param {object} context - Canvas Context
+   * @param {Оbject} context - Canvas Context
    * @param {string} text - Text to draw
    * @param {number} textWidth - Width text to draw
    * @param {number} lineHeight - Height text to draw
@@ -99,7 +99,7 @@ window.renderStatistics = function (ctx, names, times) {
    */
   var drawHistogram = function (time, name, i) {
     ctx.fillText(time.toFixed(), CloudParams.POINT_Y + headerParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT + (-1 * (barWidth * time) / maxTime) - (RESULT_COEF * (HistogramParams.LINE_HEIGHT)));
-    ctx.fillStyle = (name === 'Вы') ? colorMainPlayer : 'rgba(0, 0, 255, ' + getRandomNumber(minRange, maxRange) + ')';
+    ctx.fillStyle = (name === 'Вы') ? colorMainPlayer : 'rgba(0, 0, 255, ' + getRandomNumber(MIN_RANGE, MAX_RANGE) + ')';
     ctx.fillRect(CloudParams.POINT_Y + headerParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT - headerParams.LINE_HEIGHT, HistogramParams.BAR_HEIGHT, -1 * (barWidth * time) / maxTime);
     ctx.fillStyle = 'black';
     ctx.fillText(name, CloudParams.POINT_Y + headerParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT);
