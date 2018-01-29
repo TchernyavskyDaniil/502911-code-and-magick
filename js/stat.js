@@ -1,16 +1,16 @@
 'use strict';
 
 window.renderStatistics = function (ctx, names, times) {
-  var maxTime;
+  var maxTime = Math.max.apply(null, times);
   var colorMainPlayer = 'rgba(255, 0, 0, 1)';
   var minRange = 0.2;
   var maxRange = 1;
 
   /**
    * Parameters for cloud
-   * @enum {number} cloudParams
+   * @enum {number} CloudParams
    */
-  var cloudParams = {
+  var CloudParams = {
     POINT_X: 100,
     POINT_Y: 10,
     WIDTH: 420,
@@ -19,9 +19,9 @@ window.renderStatistics = function (ctx, names, times) {
 
   /**
    * Parameters for histogram
-   * @enum {number} histogramParams
+   * @enum {number} HistogramParams
    */
-  var histogramParams = {
+  var HistogramParams = {
     HEIGHT: 150,
     WIDTH: 40,
     LINE_HEIGHT: 50,
@@ -32,9 +32,9 @@ window.renderStatistics = function (ctx, names, times) {
 
   /**
    * Parameters for header text
-   * @enum {number, string} headerParams
+   * @type {object} HeaderParams
    */
-  var headerParams = {
+  var HeaderParams = {
     TEXT: 'Ура, вы победили! Список результатов:',
     MARGIN_LEFT: 150,
     MARGIN_TOP: 40,
@@ -42,7 +42,7 @@ window.renderStatistics = function (ctx, names, times) {
     TEXT_WIDTH: 200
   };
 
-  var barWidth = (cloudParams.WIDTH - histogramParams.GAP * 2 - histogramParams.TEXT_WIDTH) / 2;
+  var barWidth = (CloudParams.WIDTH - HistogramParams.GAP * 2 - HistogramParams.TEXT_WIDTH) / 2;
 
   /**
    * Render multiline text
@@ -93,28 +93,26 @@ window.renderStatistics = function (ctx, names, times) {
    * @param {number} i - number player
    */
   var drawHistogram = function (time, name, i) {
-    ctx.fillText(time.toFixed(), cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT + (-1 * (barWidth * time) / maxTime) - (0.5 * (histogramParams.LINE_HEIGHT)));
+    ctx.fillText(time.toFixed(), CloudParams.POINT_Y + HeaderParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT + (-1 * (barWidth * time) / maxTime) - (0.5 * (HistogramParams.LINE_HEIGHT)));
     ctx.fillStyle = (name === 'Вы') ? colorMainPlayer : 'rgba(0, 0, 255, ' + getRandomNumber(minRange, maxRange) + ')';
-    ctx.fillRect(cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT - headerParams.LINE_HEIGHT, histogramParams.BAR_HEIGHT, -1 * (barWidth * time) / maxTime);
+    ctx.fillRect(CloudParams.POINT_Y + HeaderParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT - HeaderParams.LINE_HEIGHT, HistogramParams.BAR_HEIGHT, -1 * (barWidth * time) / maxTime);
     ctx.fillStyle = 'black';
-    ctx.fillText(name, cloudParams.POINT_Y + headerParams.MARGIN_LEFT + (histogramParams.GAP + histogramParams.BAR_HEIGHT) * i, cloudParams.HEIGHT);
+    ctx.fillText(name, CloudParams.POINT_Y + HeaderParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT);
   };
 
   /**
    * Init shadow for cloud
    */
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(cloudParams.POINT_X + 10, cloudParams.POINT_Y + 10, cloudParams.WIDTH, cloudParams.HEIGHT);
+  ctx.fillRect(CloudParams.POINT_X + 10, CloudParams.POINT_Y + 10, CloudParams.WIDTH, CloudParams.HEIGHT);
 
   /**
    * Init background for cloud
    */
   ctx.fillStyle = '#fff';
-  ctx.fillRect(cloudParams.POINT_X, cloudParams.POINT_Y, cloudParams.WIDTH, cloudParams.HEIGHT);
+  ctx.fillRect(CloudParams.POINT_X, CloudParams.POINT_Y, CloudParams.WIDTH, CloudParams.HEIGHT);
 
-  wrapText(ctx, headerParams.TEXT, headerParams.TEXT_WIDTH, headerParams.LINE_HEIGHT, headerParams.MARGIN_LEFT, headerParams.MARGIN_TOP);
-
-  maxTime = Math.max.apply(null, times);
+  wrapText(ctx, HeaderParams.TEXT, HeaderParams.TEXT_WIDTH, HeaderParams.LINE_HEIGHT, HeaderParams.MARGIN_LEFT, HeaderParams.MARGIN_TOP);
 
   times.forEach(function (time, timeIndex) {
     drawHistogram(time, names[timeIndex], timeIndex);
