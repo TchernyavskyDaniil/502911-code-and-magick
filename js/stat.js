@@ -6,7 +6,6 @@ window.renderStatistics = function (ctx, names, times) {
    * @const {number} RESULT_COEF
    */
   var RESULT_COEF = 0.5;
-  var maxTime = Math.max.apply(null, times);
 
   /**
    * Color of our player
@@ -25,6 +24,7 @@ window.renderStatistics = function (ctx, names, times) {
    * @type {number} MAX_RANGE
    */
   var MAX_RANGE = 1;
+  var maxTime = Math.max.apply(null, times);
 
   /**
    * Parameters for cloud
