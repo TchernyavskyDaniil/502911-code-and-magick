@@ -1,6 +1,7 @@
 'use strict';
 
 window.renderStatistics = function (ctx, names, times) {
+  var TIMER_INDENT = 0.5;
   var maxTime = Math.max.apply(null, times);
   var colorMainPlayer = 'rgba(255, 0, 0, 1)';
   var minRange = 0.2;
@@ -30,10 +31,6 @@ window.renderStatistics = function (ctx, names, times) {
     BAR_HEIGHT: 40
   };
 
-  /**
-   * Parameters for header text
-   * @type {object} HeaderParams
-   */
   var HeaderParams = {
     TEXT: 'Ура, вы победили! Список результатов:',
     MARGIN_LEFT: 150,
@@ -93,7 +90,7 @@ window.renderStatistics = function (ctx, names, times) {
    * @param {number} i - number player
    */
   var drawHistogram = function (time, name, i) {
-    ctx.fillText(time.toFixed(), CloudParams.POINT_Y + HeaderParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT + (-1 * (barWidth * time) / maxTime) - (0.5 * (HistogramParams.LINE_HEIGHT)));
+    ctx.fillText(time.toFixed(), CloudParams.POINT_Y + HeaderParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT + (-1 * (barWidth * time) / maxTime) - (TIMER_INDENT * (HistogramParams.LINE_HEIGHT)));
     ctx.fillStyle = (name === 'Вы') ? colorMainPlayer : 'rgba(0, 0, 255, ' + getRandomNumber(minRange, maxRange) + ')';
     ctx.fillRect(CloudParams.POINT_Y + HeaderParams.MARGIN_LEFT + (HistogramParams.GAP + HistogramParams.BAR_HEIGHT) * i, CloudParams.HEIGHT - HeaderParams.LINE_HEIGHT, HistogramParams.BAR_HEIGHT, -1 * (barWidth * time) / maxTime);
     ctx.fillStyle = 'black';
