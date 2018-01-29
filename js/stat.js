@@ -9,19 +9,19 @@ window.renderStatistics = function (ctx, names, times) {
 
   /**
    * Color of our player
-   * @type {string} COLOR_MAIN_PLAYER
+   * @const {string} COLOR_MAIN_PLAYER
    */
   var COLOR_MAIN_PLAYER = 'rgba(255, 0, 0, 1)';
 
   /**
    * Minimum value
-   * @type {number} MIN_RANGE
+   * @const {number} MIN_RANGE
    */
   var MIN_RANGE = 0.2;
 
   /**
    * Maximum value
-   * @type {number} MAX_RANGE
+   * @const {number} MAX_RANGE
    */
   var MAX_RANGE = 1;
   var maxTime = Math.max.apply(null, times);
