@@ -10,36 +10,32 @@ var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
 var MAGE_COUNT = 4;
 
-var MIN_RANGE = 1;
+var MIN_RANGE = 0;
 
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
-
-document.querySelector('.setup-similar').classList.remove('hidden');
-
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
 
 var generateArray = function () {
   var wizardArr = [];
   for (var i = 0; i < MAGE_COUNT; i++) {
-    wizardArr.push(generateWizzard());
+    wizardArr.push(generateWizard());
   }
   return wizardArr;
 };
 
-var generateWizzard = function () {
+var generateWizard = function () {
   return {
-    name: getName(),
+    fullName: getName(),
     coatColor: getCoatColor(),
     eyesColor: getEyesColor()
   };
 };
 
-var drawWizzards = function (wizard) {
+var drawWizards = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+  wizardElement.querySelector('.setup-similar-label').textContent = wizard.fullName;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
@@ -49,30 +45,32 @@ var drawWizzards = function (wizard) {
 var generateDocumentFragment = function (arr) {
   var fragment = document.createDocumentFragment();
 
-  arr.forEach(function (wizardArr) {
-    var renderWizard = drawWizzards(wizardArr);
+  arr.forEach(function (wizard) {
+    var renderWizard = drawWizards(wizard);
     fragment.appendChild(renderWizard);
   });
   return fragment;
 };
 
 var getName = function () {
-  var randomName = getRandomNumber(MIN_RANGE, NAMES.length - 1).toFixed();
-  var randomSurname = getRandomNumber(MIN_RANGE, SURNAMES.length - 1).toFixed();
-  return NAMES[randomName] + ' ' + SURNAMES[randomSurname];
+  var indexName = getRandomNumber(MIN_RANGE, NAMES.length - 1).toFixed();
+  var indexSurname = getRandomNumber(MIN_RANGE, SURNAMES.length - 1).toFixed();
+  return NAMES[indexName] + ' ' + SURNAMES[indexSurname];
 };
 
 var getCoatColor = function () {
-  var randomCoat = getRandomNumber(MIN_RANGE, COAT_COLORS.length - 1).toFixed();
-  return COAT_COLORS[randomCoat];
+  var indexCoat = getRandomNumber(MIN_RANGE, COAT_COLORS.length - 1).toFixed();
+  return COAT_COLORS[indexCoat];
 };
 
 var getEyesColor = function () {
-  var randomEyes = getRandomNumber(MIN_RANGE, EYES_COLORS.length - 1).toFixed();
-  return EYES_COLORS[randomEyes];
+  var indexEyes = getRandomNumber(MIN_RANGE, EYES_COLORS.length - 1).toFixed();
+  return EYES_COLORS[indexEyes];
 };
 var getRandomNumber = function (min, max) {
   return Math.random() * (max - min) + min;
 };
 
 similarListElement.appendChild(generateDocumentFragment(generateArray()));
+userDialog.classList.remove('hidden');
+document.querySelector('.setup-similar').classList.remove('hidden');
