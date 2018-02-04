@@ -1,76 +1,97 @@
 'use strict';
+/**
+ * Minimum value
+ * @const {number} MIN_RANGE
+ */
+var MIN_RANGE = 0;
 
-var NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-
-var SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-
-var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-
-var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-
+/**
+ * How much wizards in list
+ * @const {number} MAGE_COUNT
+ */
 var MAGE_COUNT = 4;
 
-var MIN_RANGE = 0;
+/**
+ * Properties of wizards
+ * @type {object}
+ */
+var wizardParams = {
+  NAMES: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
+  SURNAMES: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'],
+  COAT_COLORS: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'],
+  EYES_COLORS: ['black', 'red', 'blue', 'yellow', 'green']
+};
 
 var userDialog = document.querySelector('.setup');
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
 
-var generateArray = function () {
-  var wizardArr = [];
-  for (var i = 0; i < MAGE_COUNT; i++) {
-    wizardArr.push(generateWizard());
+/**
+ * Fill array of wizards
+ * @param {number} length
+ * @return {Array}
+ */
+var generateWizardsArray = function (length) {
+  var newArr = [];
+  for (var i = 1; i <= length; i++) {
+    newArr.push(generateWizard());
   }
-  return wizardArr;
+
+  return newArr;
 };
 
+/**
+ * Create wizard object
+ * @return {Object}
+ */
 var generateWizard = function () {
   return {
-    fullName: getName(),
-    coatColor: getCoatColor(),
-    eyesColor: getEyesColor()
+    name: wizardParams.NAMES[getRandomNumber(MIN_RANGE, wizardParams.NAMES.length - 1).toFixed()] + ', ' + wizardParams.SURNAMES[getRandomNumber(MIN_RANGE, wizardParams.SURNAMES.length - 1).toFixed()],
+    coatColor: wizardParams.COAT_COLORS[getRandomNumber(MIN_RANGE, wizardParams.COAT_COLORS.length - 1).toFixed()],
+    eyesColor: wizardParams.EYES_COLORS[getRandomNumber(MIN_RANGE, wizardParams.EYES_COLORS.length - 1).toFixed()]
   };
 };
 
-var drawWizards = function (wizard) {
+/**
+ * Render random wizard
+ * @param {Object} wizard
+ * @return {Node}
+ */
+var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.fullName;
+  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
   return wizardElement;
 };
 
-var generateDocumentFragment = function (arr) {
+/**
+ * Create array of wizards
+ * @param {Array} wizardArr
+ * @return {DocumentFragment}
+ */
+var createWizard = function (wizardArr) {
   var fragment = document.createDocumentFragment();
 
-  arr.forEach(function (wizard) {
-    var renderWizard = drawWizards(wizard);
-    fragment.appendChild(renderWizard);
+  wizardArr.forEach(function (wizard) {
+    fragment.appendChild(renderWizard(wizard));
   });
+
   return fragment;
 };
 
-var getName = function () {
-  var indexName = getRandomNumber(MIN_RANGE, NAMES.length - 1).toFixed();
-  var indexSurname = getRandomNumber(MIN_RANGE, SURNAMES.length - 1).toFixed();
-  return NAMES[indexName] + ' ' + SURNAMES[indexSurname];
-};
-
-var getCoatColor = function () {
-  var indexCoat = getRandomNumber(MIN_RANGE, COAT_COLORS.length - 1).toFixed();
-  return COAT_COLORS[indexCoat];
-};
-
-var getEyesColor = function () {
-  var indexEyes = getRandomNumber(MIN_RANGE, EYES_COLORS.length - 1).toFixed();
-  return EYES_COLORS[indexEyes];
-};
+/**
+ * Return random number between the interval min (inclusive) - max (inclusive)
+ * @param {number} min - number opacity
+ * @param {number} max - number opacity
+ * @return {number} - random number
+ */
 var getRandomNumber = function (min, max) {
-  return Math.random() * (max - min) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-similarListElement.appendChild(generateDocumentFragment(generateArray()));
 userDialog.classList.remove('hidden');
 document.querySelector('.setup-similar').classList.remove('hidden');
+similarListElement.appendChild(createWizard(generateWizardsArray(MAGE_COUNT)));
