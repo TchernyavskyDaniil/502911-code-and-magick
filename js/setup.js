@@ -47,7 +47,7 @@
    */
   var generateWizard = function () {
     return {
-      name: wizardParams.NAMES[getRandomNumber(MIN_RANGE, wizardParams.NAMES.length - 1).toFixed()] + ', ' + wizardParams.SURNAMES[getRandomNumber(MIN_RANGE, wizardParams.SURNAMES.length - 1).toFixed()],
+      name: wizardParams.NAMES[getRandomNumber(MIN_RANGE, wizardParams.NAMES.length - 1).toFixed()] + ' ' + wizardParams.SURNAMES[getRandomNumber(MIN_RANGE, wizardParams.SURNAMES.length - 1).toFixed()],
       coatColor: wizardParams.COAT_COLORS[getRandomNumber(MIN_RANGE, wizardParams.COAT_COLORS.length - 1).toFixed()],
       eyesColor: wizardParams.EYES_COLORS[getRandomNumber(MIN_RANGE, wizardParams.EYES_COLORS.length - 1).toFixed()]
     };
